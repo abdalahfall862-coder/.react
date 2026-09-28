@@ -1,12 +1,413 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SN-Shop</title>
-  </head>
-  <body>
-    <div id="root"></div>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#111111">
+    <meta name="description" content="Boutique en ligne — nouveautés, hommes, femmes, enfants.">
+
+    <title>SN-Shop — Collection essentials</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ["Inter", "ui-sans-serif", "system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --ink: #111111;
+            --muted: #737373;
+            --line: #e7e5e4;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: calc(78px + env(safe-area-inset-top, 0px));
+        }
+
+        body {
+            background: #ffffff;
+            color: var(--ink);
+            padding-bottom: env(safe-area-inset-bottom, 0px);
+        }
+
+        header {
+            padding-top: env(safe-area-inset-top, 0px);
+        }
+
+        .shell {
+            width: 92%;
+            max-width: 1400px;
+            margin-inline: auto;
+        }
+
+        .hero-surface {
+            background: linear-gradient(135deg, #f5f5f4 0%, #e7e5e4 100%);
+        }
+
+        .hero-visual {
+            background: linear-gradient(135deg, #d6d3d1 0%, #f5f5f4 52%, #a8a29e 100%);
+        }
+
+        .hero-visual::before {
+            content: "";
+            position: absolute;
+            right: -12%;
+            top: -18%;
+            width: 58%;
+            aspect-ratio: 1;
+            border: 1px solid rgba(255, 255, 255, 0.65);
+            border-radius: 9999px;
+        }
+
+        .hero-visual::after {
+            content: "";
+            position: absolute;
+            left: 14%;
+            bottom: 12%;
+            width: 34%;
+            aspect-ratio: 1;
+            border: 1px solid rgba(17, 17, 17, 0.16);
+            border-radius: 9999px;
+        }
+
+        .product-card {
+            border: 1px solid var(--line);
+            background: #ffffff;
+            box-shadow: 0 10px 30px rgba(17, 17, 17, 0.04);
+            transition: transform 250ms ease, box-shadow 250ms ease, border-color 250ms ease;
+        }
+
+        .product-card:hover {
+            border-color: #a8a29e;
+            box-shadow: 0 18px 40px rgba(17, 17, 17, 0.1);
+            transform: translateY(-4px);
+        }
+
+        .product-visual {
+            position: relative;
+            display: flex;
+            aspect-ratio: 4 / 5;
+            align-items: flex-end;
+            overflow: hidden;
+            padding: 1rem;
+            background: linear-gradient(135deg, #f5f5f4 0%, #e7e5e4 100%);
+        }
+
+        .product-visual::before {
+            content: "";
+            position: absolute;
+            right: -18%;
+            top: 12%;
+            width: 72%;
+            aspect-ratio: 1;
+            border: 1px solid rgba(17, 17, 17, 0.1);
+            border-radius: 9999px;
+        }
+
+        .product-visual::after {
+            content: "";
+            position: absolute;
+            left: -12%;
+            bottom: -20%;
+            width: 58%;
+            aspect-ratio: 1;
+            background: rgba(255, 255, 255, 0.45);
+            border-radius: 9999px;
+        }
+
+        .product-label {
+            position: relative;
+            z-index: 1;
+            color: #57534e;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        #info-panel-content {
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            background: #ffffff;
+            color: var(--muted);
+            padding: 1rem;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        a:focus-visible, button:focus-visible {
+            outline: 2px solid var(--ink);
+            outline-offset: 3px;
+        }
+
+        footer a:focus-visible {
+            outline-color: #ffffff;
+        }
+
+        button:not(:disabled), a[data-action] {
+            cursor: pointer;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        button:disabled {
+            cursor: not-allowed;
+        }
+
+        #search-toggle[aria-expanded="true"] {
+            border-color: var(--ink);
+            background: var(--ink);
+            color: #ffffff;
+        }
+
+        ::selection {
+            background: var(--ink);
+            color: #ffffff;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * { transition: none !important; scroll-behavior: auto !important; }
+        }
+    </style>
+</head>
+
+
+<body id="top" class="bg-white text-black font-sans">
+
+    <a href="#contenu" class="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-[100] focus:bg-black focus:px-4 focus:py-2 focus:text-[12px] focus:text-white">
+        Aller au contenu
+    </a>
+
+    <header class="sticky top-0 z-50 border-b border-gray-200 bg-white/95 backdrop-blur">
+
+        <div class="shell flex min-h-[78px] items-center justify-between gap-8">
+
+            <!-- MARQUE -->
+            <a href="#top" data-action="home" class="group flex items-center gap-3 whitespace-nowrap transition duration-200 hover:opacity-70 active:scale-[0.98]">
+                <span class="flex h-9 w-9 items-center justify-center rounded-full bg-black text-[10px] font-bold tracking-[-0.04em] text-white transition duration-200 group-hover:bg-stone-700">SN</span>
+                <span class="text-[15px] font-semibold tracking-[0.16em]">SN-SHOP</span>
+            </a>
+
+            <!-- NAVIGATION -->
+            <nav aria-label="Navigation principale" class="hidden md:block">
+                <ul id="nav-links" class="flex items-center gap-8">
+                    <li>
+                        <a href="#top" data-action="home" class="rounded-full px-3 py-2 text-[13px] font-medium text-stone-700 transition duration-200 hover:bg-stone-100 hover:text-stone-950 active:scale-[0.98]">Accueil</a>
+                    </li>
+                    <li>
+                        <a href="#produits-section" data-action="category" data-category="Hommes" data-target="produits-section" class="rounded-full px-3 py-2 text-[13px] font-medium text-stone-700 transition duration-200 hover:bg-stone-100 hover:text-stone-950 active:scale-[0.98]">Hommes</a>
+                    </li>
+                    <li>
+                        <a href="#produits-section" data-action="category" data-category="Femmes" data-target="produits-section" class="rounded-full px-3 py-2 text-[13px] font-medium text-stone-700 transition duration-200 hover:bg-stone-100 hover:text-stone-950 active:scale-[0.98]">Femmes</a>
+                    </li>
+                    <li>
+                        <a href="#produits-section" data-action="category" data-category="Enfants" data-target="produits-section" class="rounded-full px-3 py-2 text-[13px] font-medium text-stone-700 transition duration-200 hover:bg-stone-100 hover:text-stone-950 active:scale-[0.98]">Enfants</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- ACTIONS -->
+            <div class="flex items-center gap-2 sm:gap-5">
+                <button
+                    id="search-toggle"
+                    data-action="toggle-search"
+                    type="button"
+                    aria-controls="search-panel"
+                    aria-expanded="false"
+                    class="whitespace-nowrap rounded-full border border-gray-300 px-4 py-2 text-[11px] font-medium text-gray-700 transition duration-200 hover:border-black hover:bg-black hover:text-white active:scale-[0.98] sm:text-[12px]"
+                >
+                    Recherche
+                </button>
+            </div>
+
+        </div>
+
+    </header>
+
+    <section id="search-panel" class="hidden border-b border-gray-200 bg-[#fafaf9]" aria-label="Recherche">
+        <div class="shell py-5">
+            <div class="mb-3 flex items-center justify-between gap-4">
+                <label for="search-input" class="text-[13px] font-semibold">
+                    Rechercher un produit
+                </label>
+                <button id="search-close" data-action="close-search" type="button" class="rounded-full border border-gray-300 px-3 py-2 text-[12px] font-medium text-gray-500 transition duration-200 hover:border-black hover:bg-black hover:text-white active:scale-[0.98]">
+                    Fermer
+                </button>
+            </div>
+            <input
+                id="search-input"
+                type="search"
+                placeholder="Nom, description ou catégorie"
+                class="w-full rounded-md border border-gray-300 bg-white px-4 py-3 text-[13px] outline-none transition duration-200 focus:border-black focus:ring-2 focus:ring-black focus:ring-offset-2"
+            >
+            <p id="search-status" class="mt-2 text-[12px] text-gray-500" aria-live="polite"></p>
+        </div>
+    </section>
+
+    <aside id="info-panel" class="hidden border-b border-gray-200 bg-[#fafaf9]" aria-live="polite">
+        <div class="shell py-5">
+            <div class="mb-4 flex items-center justify-between gap-4">
+                <h2 id="info-panel-title" class="text-[18px] font-semibold tracking-[-0.5px]"></h2>
+                <button id="info-panel-close" data-action="close-info" type="button" class="rounded-full border border-gray-300 px-3 py-2 text-[12px] font-medium text-gray-500 transition duration-200 hover:border-black hover:bg-black hover:text-white active:scale-[0.98]">
+                    Fermer
+                </button>
+            </div>
+            <div id="info-panel-content"></div>
+        </div>
+    </aside>
+
+    <main id="contenu">
+
+
+        <section class="shell py-8 sm:py-10">
+
+            <div class="hero-surface flex min-h-[520px] overflow-hidden rounded-[28px] border border-stone-200 shadow-sm max-md:flex-col">
+
+                <div class="flex w-1/2 flex-col justify-center px-8 py-14 sm:px-12 md:px-16 max-md:w-full">
+
+                    <p class="mb-5 text-[11px] font-semibold uppercase tracking-[2px] text-gray-500">
+                        Nouvelle collection
+                    </p>
+
+                    <h1 class="mb-6 max-w-[560px] text-[clamp(38px,4vw,62px)] font-semibold leading-[0.98] tracking-[-0.045em]">
+                        Découvrez notre nouvelle collection
+                    </h1>
+
+                    <p class="mb-8 max-w-[440px] text-[14px] leading-7 text-gray-500">
+                        Découvrez les dernières nouveautés disponibles
+                        dans notre boutique.
+                    </p>
+
+                    <a href="#produits-section" data-action="discover" class="w-fit rounded-full bg-black px-7 py-3.5 text-[12px] font-semibold text-white shadow-sm transition duration-200 hover:-translate-y-0.5 hover:bg-gray-800 hover:shadow-lg active:scale-[0.98]">
+                        Découvrir
+                    </a>
+
+                </div>
+
+                <div class="hero-visual relative min-h-[520px] w-1/2 max-md:min-h-[300px] max-md:w-full" aria-hidden="true">
+                    <div class="absolute bottom-7 left-7 z-10 flex flex-col gap-2 text-[#44403c]">
+                        <span class="text-[10px] font-bold uppercase tracking-[0.24em]">Édition 01</span>
+                        <span class="text-[13px] font-medium">Collection essentials</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+        <section id="produits-section" class="shell scroll-mt-24 py-16 sm:py-20">
+
+            <div class="mb-7 flex items-end justify-between">
+                <h2 class="text-[clamp(22px,3vw,30px)] font-semibold tracking-[-0.04em]">
+                    Produits populaires
+                </h2>
+                <a href="#produits-section" data-action="show-products" data-target="produits-section" class="rounded-full border border-gray-300 px-3 py-2 text-[12px] font-medium text-gray-700 transition duration-200 hover:border-black hover:bg-black hover:text-white active:scale-[0.98]">
+                    Voir tout
+                </a>
+            </div>
+
+            <ul id="produits-populaires" class="grid grid-cols-2 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4"></ul>
+
+        </section>
+
+        <section id="nouveautes-section" class="shell scroll-mt-24 py-16 sm:py-20">
+
+            <div class="mb-7 flex items-end justify-between">
+                <h2 class="text-[clamp(22px,3vw,30px)] font-semibold tracking-[-0.04em]">
+                    Nouveautés
+                </h2>
+                <a href="#nouveautes-section" data-action="show-products" data-target="nouveautes-section" class="rounded-full border border-gray-300 px-3 py-2 text-[12px] font-medium text-gray-700 transition duration-200 hover:border-black hover:bg-black hover:text-white active:scale-[0.98]">
+                    Voir tout
+                </a>
+            </div>
+
+            <ul id="nouveautes" class="grid grid-cols-2 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4"></ul>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- =====================================================
+         PIED DE PAGE
+    ====================================================== -->
+
+    <footer class="border-t border-stone-800 bg-[#111] py-20 text-white">
+
+        <div class="shell grid gap-10 md:grid-cols-3">
+
+            <!-- COLONNE 1 -->
+            <div>
+                <h3 class="mb-4 text-[15px] font-semibold tracking-[0.12em]">
+                    SN-SHOP
+                </h3>
+                <p class="max-w-[280px] text-[12px] leading-6 text-stone-400">
+                    Votre boutique en ligne.
+                </p>
+            </div>
+
+            <!-- COLONNE 2 -->
+            <nav aria-label="Liens boutique">
+                <h3 class="mb-4 text-[14px] font-semibold">
+                    Boutique
+                </h3>
+                <ul id="footer-boutique">
+                    <li>
+                        <a href="#produits-section" data-action="category" data-category="Nouveautés" class="mb-2 block w-fit rounded-md px-2 py-1.5 text-[12px] text-stone-400 transition duration-200 hover:bg-white/10 hover:text-white active:scale-[0.98]">Nouveautés</a>
+                    </li>
+                    <li>
+                        <a href="#produits-section" data-action="category" data-category="Hommes" class="mb-2 block w-fit rounded-md px-2 py-1.5 text-[12px] text-stone-400 transition duration-200 hover:bg-white/10 hover:text-white active:scale-[0.98]">Hommes</a>
+                    </li>
+                    <li>
+                        <a href="#produits-section" data-action="category" data-category="Femmes" class="mb-2 block w-fit rounded-md px-2 py-1.5 text-[12px] text-stone-400 transition duration-200 hover:bg-white/10 hover:text-white active:scale-[0.98]">Femmes</a>
+                    </li>
+                    <li>
+                        <a href="#produits-section" data-action="category" data-category="Enfants" class="block w-fit rounded-md px-2 py-1.5 text-[12px] text-stone-400 transition duration-200 hover:bg-white/10 hover:text-white active:scale-[0.98]">Enfants</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- COLONNE 3 -->
+            <nav aria-label="Informations">
+                <h3 class="mb-4 text-[14px] font-semibold">
+                    Informations
+                </h3>
+                <ul id="footer-informations">
+                    <li>
+                        <a href="#footer-informations" data-action="info" data-label="À propos" class="mb-2 block w-fit rounded-md px-2 py-1.5 text-[12px] text-stone-400 transition duration-200 hover:bg-white/10 hover:text-white active:scale-[0.98]">À propos</a>
+                    </li>
+                    <li>
+                        <a href="#footer-informations" data-action="info" data-label="Contact" class="mb-2 block w-fit rounded-md px-2 py-1.5 text-[12px] text-stone-400 transition duration-200 hover:bg-white/10 hover:text-white active:scale-[0.98]">Contact</a>
+                    </li>
+                    <li>
+                        <a href="#footer-informations" data-action="info" data-label="Livraison" class="mb-2 block w-fit rounded-md px-2 py-1.5 text-[12px] text-stone-400 transition duration-200 hover:bg-white/10 hover:text-white active:scale-[0.98]">Livraison</a>
+                    </li>
+                    <li>
+                        <a href="#footer-informations" data-action="info" data-label="Conditions" class="block w-fit rounded-md px-2 py-1.5 text-[12px] text-stone-400 transition duration-200 hover:bg-white/10 hover:text-white active:scale-[0.98]">Conditions</a>
+                    </li>
+                </ul>
+            </nav>
+
+        </div>
+
+    </footer>
+
+    <script type="module" src="/script.js"></script>
     <script type="module" src="/src/main.jsx"></script>
-  </body>
+
+</body>
+
 </html>
