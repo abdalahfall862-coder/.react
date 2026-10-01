@@ -1,10 +1,10 @@
+import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import ProductList from './productList'
-import { populaires, nouveautes } from './products'
+import App from './App'
+import './index.css'
 
-createRoot(document.getElementById('produits-populaires')).render(
-  <ProductList products={populaires} />
-)
-createRoot(document.getElementById('nouveautes')).render(
-  <ProductList products={nouveautes} />
+createRoot(document.getElementById('root')).render(
+    <StrictMode>
+        <App />
+    </StrictMode>
 )
