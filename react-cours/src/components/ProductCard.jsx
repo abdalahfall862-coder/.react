@@ -4,10 +4,18 @@ export default function ProductCard({ product, onSelect }) {
     const { name, description, category, price } = product
 
     return (
-        <li className="min-w-0" data-category={category}>
+        <li className="min-w-0">
             <article className="product-card group flex h-full flex-col overflow-hidden">
-                <div className="product-visual" aria-hidden="true">
-                    <span className="product-label">{formatCategory(category)}</span>
+                <div className="relative flex aspect-[4/5] items-end overflow-hidden bg-stone-100 p-4">
+                    <img
+                        src={product.image || undefined}
+                        alt=""
+                        aria-hidden="true"
+                        className="absolute inset-0 h-full w-full object-cover"
+                    />
+                    <span className="relative z-[1] text-[10px] font-bold uppercase tracking-[0.16em] text-stone-500">
+                        {formatCategory(category)}
+                    </span>
                 </div>
                 <div className="flex flex-1 flex-col p-5">
                     <h3 className="mb-2 text-[15px] font-semibold tracking-[-0.02em]">{name}</h3>

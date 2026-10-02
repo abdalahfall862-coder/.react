@@ -1,6 +1,6 @@
 export default function InfoPanel({ title, content, onClose }) {
     return (
-        <aside id="info-panel" className="border-b border-gray-200 bg-[#fafaf9]" aria-live="polite">
+        <aside className="border-b border-gray-200 bg-[#fafaf9]" aria-live="polite">
             <div className="shell py-5">
                 <div className="mb-4 flex items-center justify-between gap-4">
                     <h2 className="text-[18px] font-semibold tracking-[-0.5px]">{title}</h2>

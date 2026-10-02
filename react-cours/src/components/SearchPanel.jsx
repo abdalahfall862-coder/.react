@@ -27,6 +27,7 @@ export default function SearchPanel({ searchTerm, status, onSearchChange, onClos
                     ref={inputRef}
                     type="search"
                     value={searchTerm}
+                    aria-describedby="search-status"
                     onChange={(event) => onSearchChange(event.target.value)}
                     placeholder="Nom, description ou catégorie"
                     className="w-full rounded-md border border-gray-300 bg-white px-4 py-3 text-[13px] outline-none transition duration-200 focus:border-black focus:ring-2 focus:ring-black focus:ring-offset-2"

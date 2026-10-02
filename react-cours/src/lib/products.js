@@ -1,4 +1,4 @@
-export function normalize(value) {
+function normalize(value) {
     return String(value).trim().toLocaleLowerCase('fr-FR')
 }
 

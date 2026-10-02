@@ -2,7 +2,7 @@ import ProductList from './ProductList'
 
 export default function ProductSection({ id, title, products, onShowAll, onSelect }) {
     return (
-        <section id={id} className="shell scroll-mt-24 py-16 sm:py-20">
+        <section id={id} className="shell py-16 sm:py-20">
             <div className="mb-7 flex items-end justify-between">
                 <h2 className="text-[clamp(22px,3vw,30px)] font-semibold tracking-[-0.04em]">{title}</h2>
                 <button
