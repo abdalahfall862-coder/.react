@@ -1,7 +1,7 @@
 export default function Hero({ onDiscover }) {
     return (
         <section className="shell py-8 sm:py-10">
-            <div className="hero-surface flex min-h-[520px] overflow-hidden rounded-[28px] border border-stone-200 shadow-sm max-md:flex-col">
+            <div className="flex min-h-[520px] overflow-hidden rounded-[28px] border border-stone-200 shadow-sm max-md:flex-col">
 
                 <div className="flex w-1/2 flex-col justify-center px-8 py-14 sm:px-12 md:px-16 max-md:w-full">
                     <p className="mb-5 text-[11px] font-semibold uppercase tracking-[2px] text-gray-500">
@@ -23,14 +23,9 @@ export default function Hero({ onDiscover }) {
                 </div>
 
                 <div
-                    className="hero-visual relative min-h-[520px] w-1/2 max-md:min-h-[300px] max-md:w-full"
+                    className="min-h-[520px] w-1/2 max-md:min-h-[300px] max-md:w-full"
                     aria-hidden="true"
-                >
-                    <div className="absolute bottom-7 left-7 z-10 flex flex-col gap-2 text-[#44403c]">
-                        <span className="text-[10px] font-bold uppercase tracking-[0.24em]">Édition 01</span>
-                        <span className="text-[13px] font-medium">Collection essentials</span>
-                    </div>
-                </div>
+                />
 
             </div>
         </section>
