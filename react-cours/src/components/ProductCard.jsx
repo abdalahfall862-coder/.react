@@ -28,7 +28,7 @@ export default function ProductCard({ product, onSelect }) {
                             aria-label={`Voir ${name}`}
                             className="text-[11px] font-semibold uppercase tracking-[0.12em] transition duration-200 hover:text-stone-500 active:scale-[0.98]"
                         >
-                            Voir →
+                            Voir
                         </button>
                     </div>
                 </div>
